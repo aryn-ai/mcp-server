@@ -1,6 +1,6 @@
 [project]
 name = "aryn-mcp-server"
-version = "0.1.3"
+version = "0.1.0"
 description = "The Official Aryn SDK Local MCP Extension"
 authors = [
     {name = "Aryn AI",email = "info@aryn.ai"}
@@ -32,7 +32,11 @@ dev = [
     "pre-commit>=4.3.0",
     "pytest>=8.4.1",
     "pytest-asyncio>=1.1.0",
+    "twine>=6.1.0",
 ]
+
+[tool.black]
+line-length = 120
 
 [tool.mypy]
 exclude = ["build"]

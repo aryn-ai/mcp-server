@@ -102,9 +102,7 @@ def partition_pdf(args: PartitionModel) -> str:
 
         save_file(partition_result, args.filename, args.output_format)
 
-        return (
-            f"File saved in {get_output_dir()} as {args.filename}.{args.output_format}"
-        )
+        return f"File saved in {get_output_dir()} as {args.filename}.{args.output_format}"
     except Exception as e:
         return str(e)
 
@@ -149,13 +147,9 @@ def get_boxes_drawn_on_pdf(args: DrawBoxesModel) -> dict:
         saved_images = []
         for page_range in args.pages_to_draw_boxes_on:
             if page_range.start < 1 or page_range.end > len(pages):
-                raise ValueError(
-                    f"Page range {page_range} is out of bounds for the document"
-                )
+                raise ValueError(f"Page range {page_range} is out of bounds for the document")
             for page_index in range(page_range.start - 1, page_range.end):
-                saved_path = save_file(
-                    pages[page_index], f"{args.doc_id}_page_image_{page_index+1}", "png"
-                )
+                saved_path = save_file(pages[page_index], f"{args.doc_id}_page_image_{page_index+1}", "png")
                 saved_images.append(saved_path)
 
         return {
@@ -243,9 +237,7 @@ def list_aryn_docsets(args: ListArynDocSetsModel) -> list[dict] | dict:
     """
 
     try:
-        docsets_info = ADSM.list_docsets(
-            page_size=args.page_size, name_eq=args.name_eq, page_token=args.page_token
-        )
+        docsets_info = ADSM.list_docsets(page_size=args.page_size, name_eq=args.name_eq, page_token=args.page_token)
         return docsets_info
     except Exception as e:
         return {"error": str(e)}
@@ -305,9 +297,7 @@ def add_aryn_document(args: AddArynDocumentModel, options: PartitionModel) -> di
     """
 
     try:
-        document_info = ADM.add_document(
-            file=args.file, docset_id=args.docset_id, options=options
-        )
+        document_info = ADM.add_document(file=args.file, docset_id=args.docset_id, options=options)
         return document_info
     except Exception as e:
         return {"error": str(e)}
@@ -469,9 +459,7 @@ def delete_aryn_document(args: DeleteArynDocumentModel) -> dict:
     """
 
     try:
-        document_info = ADM.delete_document(
-            docset_id=args.docset_id, doc_id=args.doc_id
-        )
+        document_info = ADM.delete_document(docset_id=args.docset_id, doc_id=args.doc_id)
         return document_info
     except Exception as e:
         return {"error": str(e)}

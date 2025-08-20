@@ -91,16 +91,8 @@ class SearchArynDocSetModel(BaseModel):
 
     @model_validator(mode="after")
     def validate_search_criteria(self) -> "SearchArynDocSetModel":
-        if self.query_or_properties_filter == "query" and not (
-            self.query or self.query_type
-        ):
-            raise ValueError(
-                "If query_or_properties_filter is 'query', query and query_type must be provided"
-            )
-        if self.query_or_properties_filter == "properties_filter" and (
-            not self.properties_filter
-        ):
-            raise ValueError(
-                "If query_or_properties_filter is 'properties_filter', properties_filter must be provided"
-            )
+        if self.query_or_properties_filter == "query" and not (self.query or self.query_type):
+            raise ValueError("If query_or_properties_filter is 'query', query and query_type must be provided")
+        if self.query_or_properties_filter == "properties_filter" and (not self.properties_filter):
+            raise ValueError("If query_or_properties_filter is 'properties_filter', properties_filter must be provided")
         return self

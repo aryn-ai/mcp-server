@@ -270,9 +270,7 @@ def test_get_document_elements(create_docset):
 def test_get_document_extracted_properties(create_docset):
     docset_id = create_docset["docset_id"]
     doc_id = create_docset["test_doc_id"]
-    args = GetArynDocumentExtractedPropertiesModel(
-        docset_id=docset_id, doc_id=doc_id, output_format="json"
-    )
+    args = GetArynDocumentExtractedPropertiesModel(docset_id=docset_id, doc_id=doc_id, output_format="json")
     result = get_aryn_document_extracted_properties(args)
     extracted_file_path = extract_file_path_from_message(result)
     assert Path(extracted_file_path).exists()

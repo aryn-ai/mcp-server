@@ -39,12 +39,8 @@ class ArynDocumentManager:
             "threshold": options.threshold,
             "text_mode": options.text_mode,
             "table_mode": options.table_mode,
-            "text_extraction_options": {
-                "remove_line_breaks": options.remove_line_breaks
-            },
-            "table_extraction_options": {
-                "include_additional_text": options.include_additional_text
-            },
+            "text_extraction_options": {"remove_line_breaks": options.remove_line_breaks},
+            "table_extraction_options": {"include_additional_text": options.include_additional_text},
             "extract_images": options.extract_images,
             "extract_image_format": options.extract_image_format,
             "summarize_images": options.summarize_images,
@@ -68,36 +64,24 @@ class ArynDocumentManager:
         }
         return partition_options
 
-    def add_document(
-        self, file: str | PathLike, docset_id: str, options: PartitionModel
-    ):
+    def add_document(self, file: str | PathLike, docset_id: str, options: PartitionModel):
         try:
             partition_options = self._create_partition_options(options)
-            doc = self.client.add_doc(
-                file=file, docset_id=docset_id, options=partition_options
-            )
+            doc = self.client.add_doc(file=file, docset_id=docset_id, options=partition_options)
             doc_info = self._create_doc_info(doc)
             return doc_info
         except Exception as e:
-            raise Exception(
-                f"Failed to add document to docset {docset_id}: {str(e)}"
-            ) from e
+            raise Exception(f"Failed to add document to docset {docset_id}: {str(e)}") from e
 
     def list_documents(self, docset_id: str, page_size: int, page_token: str | None):
         try:
-            docs = self.client.list_docs(
-                docset_id=docset_id, page_size=page_size, page_token=page_token
-            )
+            docs = self.client.list_docs(docset_id=docset_id, page_size=page_size, page_token=page_token)
             docs_info = [self._create_doc_info(doc, listing=True) for doc in docs]
             return docs_info
         except Exception as e:
-            raise Exception(
-                f"Failed to list documents in docset {docset_id}: {str(e)}"
-            ) from e
+            raise Exception(f"Failed to list documents in docset {docset_id}: {str(e)}") from e
 
-    def get_document(
-        self, docset_id: str, doc_id: str, include_elements: bool, include_binary: bool
-    ):
+    def get_document(self, docset_id: str, doc_id: str, include_elements: bool, include_binary: bool):
         try:
             doc = self.client.get_doc(
                 docset_id=docset_id,
@@ -131,9 +115,7 @@ class ArynDocumentManager:
         except Exception as e:
             if "404" in str(e) or "not found" in str(e).lower():
                 return None
-            raise Exception(
-                f"Failed to get document {doc_id} in docset {docset_id}: {str(e)}"
-            ) from e
+            raise Exception(f"Failed to get document {doc_id} in docset {docset_id}: {str(e)}") from e
 
     def delete_document(self, docset_id: str, doc_id: str):
         try:
@@ -142,22 +124,12 @@ class ArynDocumentManager:
             return doc_info
         except Exception as e:
             if "404" in str(e) or "not found" in str(e).lower():
-                raise Exception(
-                    f"Document {doc_id} not found in docset {docset_id}"
-                ) from e
-            raise Exception(
-                f"Failed to delete document {doc_id} in docset {docset_id}: {str(e)}"
-            ) from e
+                raise Exception(f"Document {doc_id} not found in docset {docset_id}") from e
+            raise Exception(f"Failed to delete document {doc_id} in docset {docset_id}: {str(e)}") from e
 
-    def get_document_binary(
-        self, docset_id: str, doc_id: str, file_path: str | PathLike
-    ):
+    def get_document_binary(self, docset_id: str, doc_id: str, file_path: str | PathLike):
         try:
-            self.client.get_doc_binary(
-                docset_id=docset_id, doc_id=doc_id, file=file_path
-            )
+            self.client.get_doc_binary(docset_id=docset_id, doc_id=doc_id, file=file_path)
             return file_path
         except Exception as e:
-            raise Exception(
-                f"Failed to get document binary for {doc_id} in docset {docset_id}: {str(e)}"
-            ) from e
+            raise Exception(f"Failed to get document binary for {doc_id} in docset {docset_id}: {str(e)}") from e
