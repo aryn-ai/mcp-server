@@ -1,0 +1,111 @@
+{
+  "dxt_version": "0.1",
+  "name": "Aryn SDK MCP Extension",
+  "display_name": "Aryn SDK",
+  "version": "1.0.0",
+  "description": "The Official Aryn SDK Local MCP Extension",
+  "long_description": "A powerful document processing service that provides a comprehensive set of tools for PDF partitioning, analysis, and management. Offers advanced capabilities including DocSet management, property extraction, and intelligent search functionality.",
+  "author": {
+    "name": "Aryn AI",
+    "email": "info@aryn.ai",
+    "url": "https://www.aryn.ai/"
+  },
+  "homepage": "https://www.aryn.ai/",
+  "server": {
+    "type": "python",
+    "entry_point": "src/aryn_mcp_server/aryn_mcp_server.py",
+    "mcp_config": {
+      "command": "python3",
+      "args": [
+        "-m",
+        "aryn_mcp_server.aryn_mcp_server"
+      ],
+      "env": {
+        "PYTHONPATH": "${__dirname}/src:${__dirname}/.venv/lib/python3.13/site-packages",
+        "ARYN_API_KEY": "${user_config.api_key}",
+        "ARYN_MCP_OUTPUT_DIR": "${user_config.output_directory}"
+      }
+    }
+  },
+  "tools": [
+    {
+      "name": "partition_pdf"
+    },
+    {
+      "name": "get_boxes_drawn_on_pdf"
+    },
+    {
+      "name": "create_aryn_docset"
+    },
+    {
+      "name": "get_aryn_docset_metadata"
+    },
+    {
+      "name": "get_aryn_docset_schema"
+    },
+    {
+      "name": "list_aryn_docsets"
+    },
+    {
+      "name": "delete_aryn_docset"
+    },
+    {
+      "name": "add_aryn_document"
+    },
+    {
+      "name": "list_aryn_documents"
+    },
+    {
+      "name": "get_aryn_document_elements"
+    },
+    {
+      "name": "get_aryn_document_extracted_properties"
+    },
+    {
+      "name": "get_aryn_document_tables"
+    },
+    {
+      "name": "get_aryn_document_original_file"
+    },
+    {
+      "name": "delete_aryn_document"
+    },
+    {
+      "name": "extract_aryn_docset_properties"
+    },
+    {
+      "name": "delete_aryn_docset_properties"
+    },
+    {
+      "name": "search_aryn_docset"
+    },
+    {
+      "name": "query_aryn_docset"
+    }
+  ],
+  "user_config": {
+    "output_directory": {
+      "type": "directory",
+      "title": "Aryn SDK Output Directory",
+      "description": "Directory where Aryn SDK will save processed documents, extracted properties, and other output files",
+      "default": "${HOME}/Documents",
+      "required": false
+    },
+    "api_key": {
+      "type": "string",
+      "title": "Aryn API Key",
+      "description": "Your Aryn API key",
+      "required": true,
+      "sensitive": true
+    }
+  },
+  "license": "MIT",
+  "keywords": ["python", "document", "processing", "pdf", "partitioning", "docset", "document set", "document management", "search", "query", "document extraction"],
+  "compatibility": {
+    "claude_desktop": ">=0.10.0",
+    "platforms": ["darwin", "win32", "linux"],
+    "runtimes": {
+      "python": ">=3.12.0 <4"
+    }
+  }
+}
