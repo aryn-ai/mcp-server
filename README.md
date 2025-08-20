@@ -1,4 +1,4 @@
-# Aryn SDK MCP Server Local
+# Aryn Local MCP Server
 
 ## Installation
 
