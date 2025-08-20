@@ -20,18 +20,24 @@ classifiers = [
     "Operating System :: OS Independent",
 ]
 
-[project.optional-dependencies]
-dev = [
-    "pytest>=7.0.0",
-    "pytest-asyncio>=0.21.0"
-]
-
 [tool.dxt]
 pack = "npx @anthropic-ai/dxt pack"
 
 [build-system]
 requires = ["uv_build>=0.7.19,<0.9.0"]
 build-backend = "uv_build"
+
+[dependency-groups]
+dev = [
+    "pre-commit>=4.3.0",
+    "pytest>=8.4.1",
+    "pytest-asyncio>=1.1.0",
+]
+
+[tool.mypy]
+exclude = ["build"]
+ignore_missing_imports = true
+explicit_package_bases = true
 
 [project.scripts]
 aryn-mcp-server = "aryn_mcp_server.aryn_sdk_mcp_server_local:main"

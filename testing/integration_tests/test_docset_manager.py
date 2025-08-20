@@ -35,10 +35,16 @@ class TestArynDocSetManager(unittest.TestCase):
         )
         self.test_docset_name = "test_docset_unittest"
 
-        creation_result = self.client.create_docset(name=self.test_docset_name, schema=self.test_schema)
+        creation_result = self.client.create_docset(
+            name=self.test_docset_name, schema=self.test_schema
+        )
         self.test_docset_id = creation_result.value.docset_id
-        self.client.add_doc(docset_id=self.test_docset_id, file=Path("tests/data/test_1.pdf"))
-        self.client.add_doc(docset_id=self.test_docset_id, file=Path("tests/data/test_2.pdf"))
+        self.client.add_doc(
+            docset_id=self.test_docset_id, file=Path("tests/data/test_1.pdf")
+        )
+        self.client.add_doc(
+            docset_id=self.test_docset_id, file=Path("tests/data/test_2.pdf")
+        )
 
     def tearDown(self):
         self.ADSM.delete_docset(self.test_docset_id)
@@ -85,21 +91,36 @@ class TestArynDocSetManager(unittest.TestCase):
         docset_info = self.ADSM.get_docset(self.test_docset_id)
         self.assertEqual(len(docset_info["schema"]), 3)
         self.assertEqual(docset_info["schema"][0]["name"], new_property.name)
-        self.assertEqual(docset_info["schema"][0]["property_type"], new_property.field_type)
-        self.assertEqual(docset_info["schema"][0]["description"], new_property.description)
+        self.assertEqual(
+            docset_info["schema"][0]["property_type"], new_property.field_type
+        )
+        self.assertEqual(
+            docset_info["schema"][0]["description"], new_property.description
+        )
         self.assertEqual(docset_info["schema"][0]["examples"], new_property.examples)
 
-        self.ADSM.delete_properties(self.test_docset_id, ["Accident Number", "Aircraft Make"])
+        self.ADSM.delete_properties(
+            self.test_docset_id, ["Accident Number", "Aircraft Make"]
+        )
         docset_info = self.ADSM.get_docset(self.test_docset_id)
         self.assertEqual(len(docset_info["schema"]), 1)
         self.assertEqual(docset_info["schema"][0]["name"], new_property.name)
-        self.assertEqual(docset_info["schema"][0]["property_type"], new_property.field_type)
-        self.assertEqual(docset_info["schema"][0]["description"], new_property.description)
+        self.assertEqual(
+            docset_info["schema"][0]["property_type"], new_property.field_type
+        )
+        self.assertEqual(
+            docset_info["schema"][0]["description"], new_property.description
+        )
         self.assertEqual(docset_info["schema"][0]["examples"], new_property.examples)
 
     def test_search_docset(self):
         properties_filter = [
-            PropertiesFilterModel(property="Accident Number", property_type="str", value="DCA25MA108", operator="=")
+            PropertiesFilterModel(
+                property="Accident Number",
+                property_type="str",
+                value="DCA25MA108",
+                operator="=",
+            )
         ]
         search_result = self.ADSM.search(
             docset_id=self.test_docset_id,
@@ -113,7 +134,9 @@ class TestArynDocSetManager(unittest.TestCase):
         )
         doc_id = search_result["results"][0]["doc_id"]
         doc_info = self.client.get_doc(docset_id=self.test_docset_id, doc_id=doc_id)
-        self.assertEqual(doc_info.value.properties["entity"]["Accident Number"], "DCA25MA108")
+        self.assertEqual(
+            doc_info.value.properties["entity"]["Accident Number"], "DCA25MA108"
+        )
 
         search_result = self.ADSM.search(
             docset_id=self.test_docset_id,
@@ -127,7 +150,9 @@ class TestArynDocSetManager(unittest.TestCase):
         )
         doc_id = search_result["results"][0]["doc_id"]
         doc_info = self.client.get_doc(docset_id=self.test_docset_id, doc_id=doc_id)
-        self.assertEqual(doc_info.value.properties["entity"]["Accident Number"], "DCA25MA108")
+        self.assertEqual(
+            doc_info.value.properties["entity"]["Accident Number"], "DCA25MA108"
+        )
 
         with self.assertRaises(Exception):
             search_result = self.ADSM.search(

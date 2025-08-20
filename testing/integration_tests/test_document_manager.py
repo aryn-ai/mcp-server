@@ -30,7 +30,9 @@ class TestArynDocumentManager(unittest.TestCase):
         }
 
         doc_info = self.client.add_doc(
-            file=self.test_file_path, docset_id=self.test_docset_id, options=self.partition_options
+            file=self.test_file_path,
+            docset_id=self.test_docset_id,
+            options=self.partition_options,
         )
         self.test_doc_id = doc_info.value.doc_id
 
@@ -54,23 +56,33 @@ class TestArynDocumentManager(unittest.TestCase):
 
         doc_id = doc_info["doc_id"]
         get_result = self.ADM.get_document(
-            docset_id=self.test_docset_id, doc_id=doc_id, include_elements=True, include_binary=True
+            docset_id=self.test_docset_id,
+            doc_id=doc_id,
+            include_elements=True,
+            include_binary=True,
         )
         self.assertIsNotNone(get_result)
         self.assertEqual(get_result["doc_id"], doc_id)
         self.assertIsNotNone(get_result["elements"])
         self.assertIsNotNone(get_result["binary_data"])
 
-        delete_result = self.ADM.delete_document(docset_id=self.test_docset_id, doc_id=doc_id)
+        delete_result = self.ADM.delete_document(
+            docset_id=self.test_docset_id, doc_id=doc_id
+        )
         self.assertEqual(delete_result["doc_id"], doc_id)
 
         get_result = self.ADM.get_document(
-            docset_id=self.test_docset_id, doc_id=doc_id, include_elements=True, include_binary=True
+            docset_id=self.test_docset_id,
+            doc_id=doc_id,
+            include_elements=True,
+            include_binary=True,
         )
         self.assertIsNone(get_result)
 
     def test_list_documents(self):
-        docs_info = self.ADM.list_documents(docset_id=self.test_docset_id, page_size=10, page_token=None)
+        docs_info = self.ADM.list_documents(
+            docset_id=self.test_docset_id, page_size=10, page_token=None
+        )
 
         for doc_info in docs_info:
             self.assertIsNotNone(doc_info["doc_id"])
@@ -80,21 +92,31 @@ class TestArynDocumentManager(unittest.TestCase):
 
     def test_get_document_not_found(self):
         get_result = self.ADM.get_document(
-            docset_id=self.test_docset_id, doc_id="non_existent_doc_id", include_elements=True, include_binary=True
+            docset_id=self.test_docset_id,
+            doc_id="non_existent_doc_id",
+            include_elements=True,
+            include_binary=True,
         )
         self.assertIsNone(get_result)
 
     def test_add_document_invalid_docset(self):
         with self.assertRaises(Exception):
-            self.ADM.add_document(file=self.test_file_path, docset_id="non_existent_docset_id")
+            self.ADM.add_document(
+                file=self.test_file_path, docset_id="non_existent_docset_id"
+            )
 
     def test_delete_document_not_found(self):
         with self.assertRaises(Exception):
-            self.ADM.delete_document(docset_id=self.test_docset_id, doc_id="non_existent_doc_id")
+            self.ADM.delete_document(
+                docset_id=self.test_docset_id, doc_id="non_existent_doc_id"
+            )
 
     def test_get_document_properties(self):
         get_result = self.ADM.get_document(
-            docset_id=self.test_docset_id, doc_id=self.test_doc_id, include_elements=True, include_binary=True
+            docset_id=self.test_docset_id,
+            doc_id=self.test_doc_id,
+            include_elements=True,
+            include_binary=True,
         )
         self.assertIsNotNone(get_result)
         self.assertIsNotNone(get_result["properties"])

@@ -102,7 +102,9 @@ def partition_pdf(args: PartitionModel) -> str:
 
         save_file(partition_result, args.filename, args.output_format)
 
-        return f"File saved in {get_output_dir()} as {args.filename}.{args.output_format}"
+        return (
+            f"File saved in {get_output_dir()} as {args.filename}.{args.output_format}"
+        )
     except Exception as e:
         return str(e)
 
@@ -130,7 +132,10 @@ def get_boxes_drawn_on_pdf(args: DrawBoxesModel) -> dict:
         else:
             assert args.docset_id and args.doc_id, "docset_id and doc_id are required"
             partition_result = ADM.get_document(
-                docset_id=args.docset_id, doc_id=args.doc_id, include_elements=True, include_binary=False
+                docset_id=args.docset_id,
+                doc_id=args.doc_id,
+                include_elements=True,
+                include_binary=False,
             )
             partition_result = {"elements": partition_result["original_elements"]}
             original_pdf_path = ADM.get_document_binary(
@@ -144,12 +149,19 @@ def get_boxes_drawn_on_pdf(args: DrawBoxesModel) -> dict:
         saved_images = []
         for page_range in args.pages_to_draw_boxes_on:
             if page_range.start < 1 or page_range.end > len(pages):
-                raise ValueError(f"Page range {page_range} is out of bounds for the document")
+                raise ValueError(
+                    f"Page range {page_range} is out of bounds for the document"
+                )
             for page_index in range(page_range.start - 1, page_range.end):
-                saved_path = save_file(pages[page_index], f"{args.doc_id}_page_image_{page_index+1}", "png")
+                saved_path = save_file(
+                    pages[page_index], f"{args.doc_id}_page_image_{page_index+1}", "png"
+                )
                 saved_images.append(saved_path)
 
-        return {"saved_image_paths": saved_images, "saved_image_count": len(saved_images)}
+        return {
+            "saved_image_paths": saved_images,
+            "saved_image_count": len(saved_images),
+        }
     except Exception as e:
         return {"error": str(e)}
 
@@ -231,7 +243,9 @@ def list_aryn_docsets(args: ListArynDocSetsModel) -> list[dict] | dict:
     """
 
     try:
-        docsets_info = ADSM.list_docsets(page_size=args.page_size, name_eq=args.name_eq, page_token=args.page_token)
+        docsets_info = ADSM.list_docsets(
+            page_size=args.page_size, name_eq=args.name_eq, page_token=args.page_token
+        )
         return docsets_info
     except Exception as e:
         return {"error": str(e)}
@@ -291,7 +305,9 @@ def add_aryn_document(args: AddArynDocumentModel, options: PartitionModel) -> di
     """
 
     try:
-        document_info = ADM.add_document(file=args.file, docset_id=args.docset_id, options=options)
+        document_info = ADM.add_document(
+            file=args.file, docset_id=args.docset_id, options=options
+        )
         return document_info
     except Exception as e:
         return {"error": str(e)}
@@ -312,7 +328,9 @@ def list_aryn_documents(args: ListArynDocumentsModel) -> dict:
 
     try:
         documents_info = ADM.list_documents(
-            docset_id=args.docset_id, page_size=args.page_size, page_token=args.page_token
+            docset_id=args.docset_id,
+            page_size=args.page_size,
+            page_token=args.page_token,
         )
         return documents_info
     except Exception as e:
@@ -334,7 +352,10 @@ def get_aryn_document_elements(args: GetArynDocumentComponentsModel) -> str:
 
     try:
         document_dict = ADM.get_document(
-            docset_id=args.docset_id, doc_id=args.doc_id, include_elements=True, include_binary=False
+            docset_id=args.docset_id,
+            doc_id=args.doc_id,
+            include_elements=True,
+            include_binary=False,
         )
 
         if args.return_original_elements:
@@ -350,7 +371,9 @@ def get_aryn_document_elements(args: GetArynDocumentComponentsModel) -> str:
 
 
 @mcp.tool()
-def get_aryn_document_extracted_properties(args: GetArynDocumentExtractedPropertiesModel) -> str:
+def get_aryn_document_extracted_properties(
+    args: GetArynDocumentExtractedPropertiesModel,
+) -> str:
     """Gets the extracted properties of a document from an Aryn DocSet document
 
     Args:
@@ -363,7 +386,10 @@ def get_aryn_document_extracted_properties(args: GetArynDocumentExtractedPropert
     """
     try:
         document_dict = ADM.get_document(
-            docset_id=args.docset_id, doc_id=args.doc_id, include_elements=False, include_binary=False
+            docset_id=args.docset_id,
+            doc_id=args.doc_id,
+            include_elements=False,
+            include_binary=False,
         )
         document_properties = document_dict["properties"]
 
@@ -387,7 +413,10 @@ def get_aryn_document_tables(args: GetArynDocumentComponentsModel) -> str:
     """
     try:
         document_dict = ADM.get_document(
-            docset_id=args.docset_id, doc_id=args.doc_id, include_elements=True, include_binary=False
+            docset_id=args.docset_id,
+            doc_id=args.doc_id,
+            include_elements=True,
+            include_binary=False,
         )
         elements = document_dict["original_elements"]
 
@@ -417,7 +446,9 @@ def get_aryn_document_original_file(args: GetArynDocumentComponentsModel) -> str
 
     try:
         ADM.get_document_binary(
-            docset_id=args.docset_id, doc_id=args.doc_id, file_path=get_output_dir() / f"{args.doc_id}.pdf"
+            docset_id=args.docset_id,
+            doc_id=args.doc_id,
+            file_path=get_output_dir() / f"{args.doc_id}.pdf",
         )
 
         return f"File saved in {get_output_dir()} as {args.doc_id}.pdf"
@@ -438,7 +469,9 @@ def delete_aryn_document(args: DeleteArynDocumentModel) -> dict:
     """
 
     try:
-        document_info = ADM.delete_document(docset_id=args.docset_id, doc_id=args.doc_id)
+        document_info = ADM.delete_document(
+            docset_id=args.docset_id, doc_id=args.doc_id
+        )
         return document_info
     except Exception as e:
         return {"error": str(e)}
@@ -530,7 +563,11 @@ def query_aryn_docset(args: QueryArynDocSetModel) -> dict:
         summarize_result
     """
     try:
-        query_result = ADSM.query(docset_id=args.docset_id, query=args.query, summarize_result=args.summarize_result)
+        query_result = ADSM.query(
+            docset_id=args.docset_id,
+            query=args.query,
+            summarize_result=args.summarize_result,
+        )
 
         return query_result
     except Exception as e:
