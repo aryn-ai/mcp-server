@@ -58,7 +58,9 @@ class PartitionModel(BaseModel):
             but may miss legitimate objects. If you do set the threshold manually, I recommend starting with a value of 0.32.""",
     )
 
-    text_mode: Literal["inline_fallback_to_ocr", "inline", "ocr_standard", "ocr_vision"] = Field(
+    text_mode: Literal[
+        "inline_fallback_to_ocr", "inline", "ocr_standard", "ocr_vision"
+    ] = Field(
         "inline_fallback_to_ocr",
         description="""
             text_mode (str, optional)
@@ -156,7 +158,9 @@ class PartitionModel(BaseModel):
             large. Default value is 512.""",
     )
 
-    tokenizer: Literal["openai_tokenizer", "character_tokenizer", "huggingface_tokenizer"] = Field(
+    tokenizer: Literal[
+        "openai_tokenizer", "character_tokenizer", "huggingface_tokenizer"
+    ] = Field(
         "openai_tokenizer",
         description="""
             tokenizer (str, optional)

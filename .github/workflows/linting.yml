@@ -13,18 +13,14 @@ jobs:
         uses: actions/checkout@v4
         with:
           submodules: "recursive"
-      
       - name: Install uv
         uses: astral-sh/setup-uv@v1
         with:
           version: "latest"
-      
       - name: Install dependencies
         run: uv sync --dev
-      
       - name: Run pre-commit hook
         run: SKIP=no-commit-to-branch uv run pre-commit run --all-files
-      
       - name: Show pre-commit log
         if: failure()
         run: |

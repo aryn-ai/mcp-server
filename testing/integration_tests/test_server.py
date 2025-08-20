@@ -98,14 +98,19 @@ def create_docset():
                 examples=["ERTLJ302242"],
             ),
             SchemaField(
-                name="Aircraft Make", field_type="str", description="The make of the aircraft", examples=["Cessna 172"]
+                name="Aircraft Make",
+                field_type="str",
+                description="The make of the aircraft",
+                examples=["Cessna 172"],
             ),
         ]
     )
     docset = client.create_docset(name="integration_test_docset", schema=schema)
 
     doc_info = client.add_doc(
-        file=Path("tests/data/test_1.pdf"), docset_id=docset.value.docset_id, options=partition_options
+        file=Path("tests/data/test_1.pdf"),
+        docset_id=docset.value.docset_id,
+        options=partition_options,
     )
 
     docset_data = {
@@ -183,7 +188,10 @@ def test_create_aryn_docset():
                 examples=["ERTLJ302242"],
             ),
             SchemaField(
-                name="Aircraft Make", field_type="str", description="The make of the aircraft", examples=["Cessna 172"]
+                name="Aircraft Make",
+                field_type="str",
+                description="The make of the aircraft",
+                examples=["Cessna 172"],
             ),
         ]
     )
@@ -262,7 +270,9 @@ def test_get_document_elements(create_docset):
 def test_get_document_extracted_properties(create_docset):
     docset_id = create_docset["docset_id"]
     doc_id = create_docset["test_doc_id"]
-    args = GetArynDocumentExtractedPropertiesModel(docset_id=docset_id, doc_id=doc_id, output_format="json")
+    args = GetArynDocumentExtractedPropertiesModel(
+        docset_id=docset_id, doc_id=doc_id, output_format="json"
+    )
     result = get_aryn_document_extracted_properties(args)
     extracted_file_path = extract_file_path_from_message(result)
     assert Path(extracted_file_path).exists()
@@ -321,7 +331,10 @@ def test_extract_delete_aryn_docset_properties(sample_pdf_path, create_docset):
     extract_aryn_docset_properties(args)
 
     delete_aryn_docset_properties(
-        DeleteArynDocSetPropertiesModel(docset_id=docset_id, properties_to_delete=["Accident Number", "Aircraft Make"])
+        DeleteArynDocSetPropertiesModel(
+            docset_id=docset_id,
+            properties_to_delete=["Accident Number", "Aircraft Make"],
+        )
     )
 
     result = get_aryn_docset_schema(GetArynDocSetModel(docset_id=docset_id))
@@ -351,7 +364,11 @@ def test_search_aryn_docset(create_docset):
 def test_query_aryn_docset(create_docset):
     docset_id = create_docset["docset_id"]
 
-    args = QueryArynDocSetModel(docset_id=docset_id, query="Where did the accident occur?", summarize_result=True)
+    args = QueryArynDocSetModel(
+        docset_id=docset_id,
+        query="Where did the accident occur?",
+        summarize_result=True,
+    )
     result = query_aryn_docset(args)
     assert isinstance(result, dict)
     assert "summary" in result

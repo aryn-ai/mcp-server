@@ -34,5 +34,10 @@ dev = [
     "pytest-asyncio>=1.1.0",
 ]
 
+[tool.mypy]
+exclude = ["build"]
+ignore_missing_imports = true
+explicit_package_bases = true
+
 [project.scripts]
 aryn-mcp-server = "aryn_mcp_server.aryn_sdk_mcp_server_local:main"

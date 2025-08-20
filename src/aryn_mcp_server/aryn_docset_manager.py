@@ -18,7 +18,9 @@ class ArynDocSetManager:
         properties_list = [vars(property) for property in schema]
         return properties_list
 
-    def _generate_docset_info(self, docset, listing: bool = False, exclude_schema: bool = False) -> dict:
+    def _generate_docset_info(
+        self, docset, listing: bool = False, exclude_schema: bool = False
+    ) -> dict:
         docset_params = docset
         if not listing:
             docset_params = docset.value
@@ -28,7 +30,11 @@ class ArynDocSetManager:
             "name": docset_params.name,
             "readonly": docset_params.readonly,
             "properties": docset_params.properties,
-            "schema": self._parse_through_schema(docset_params.schema_.properties) if docset_params.schema_ else None,
+            "schema": (
+                self._parse_through_schema(docset_params.schema_.properties)
+                if docset_params.schema_
+                else None
+            ),
             "size": docset_params.size,
         }
 
@@ -37,17 +43,15 @@ class ArynDocSetManager:
 
         return docset_info
 
-    def _generate_properties_filter_string(self, properties_filter: list[PropertiesFilterModel]):
+    def _generate_properties_filter_string(
+        self, properties_filter: list[PropertiesFilterModel]
+    ):
         properties_filter_string = ""
         for filter in properties_filter:
             if filter.property_type == "str" or filter.property_type == "bool":
-                properties_filter_string += (
-                    f"""(properties.entity."{filter.property}"{filter.operator}"{filter.value}") AND """
-                )
+                properties_filter_string += f"""(properties.entity."{filter.property}"{filter.operator}"{filter.value}") AND """
             elif filter.property_type == "int":
-                properties_filter_string += (
-                    f"""(properties.entity."{filter.property}"{filter.operator}{filter.value}) AND """
-                )
+                properties_filter_string += f"""(properties.entity."{filter.property}"{filter.operator}{filter.value}) AND """
 
         properties_filter_string = properties_filter_string[:-5]
 
@@ -66,7 +70,9 @@ class ArynDocSetManager:
     def get_docset(self, docset_id: str, exclude_schema: bool = False) -> dict | None:
         try:
             docset = self.client.get_docset(docset_id=docset_id)
-            docset_info = self._generate_docset_info(docset, exclude_schema=exclude_schema)
+            docset_info = self._generate_docset_info(
+                docset, exclude_schema=exclude_schema
+            )
 
             return docset_info
 
@@ -87,7 +93,9 @@ class ArynDocSetManager:
                 raise Exception(f"Docset {docset_id} not found: {str(e)}") from e
             raise Exception(f"Failed to delete docset {docset_id}: {str(e)}") from e
 
-    def list_docsets(self, page_size: int, name_eq: str | None = None, page_token: str | None = None) -> list[dict]:
+    def list_docsets(
+        self, page_size: int, name_eq: str | None = None, page_token: str | None = None
+    ) -> list[dict]:
         try:
             if name_eq:
                 docsets = self.client.list_docsets(
@@ -106,27 +114,43 @@ class ArynDocSetManager:
         try:
             # NOTE: Extracting a property from an empty docset will do nothing, pending fix from Aryn
             docset_info = self.get_docset(docset_id)
-            if not docset_info or docset_info["size"] is None or docset_info["size"] == 0:
-                raise Exception(f"Docset {docset_id} is empty, cannot extract properties")
+            if (
+                not docset_info
+                or docset_info["size"] is None
+                or docset_info["size"] == 0
+            ):
+                raise Exception(
+                    f"Docset {docset_id} is empty, cannot extract properties"
+                )
 
-            result = self.client.extract_properties(docset_id=docset_id, schema=properties_to_extract)
+            result = self.client.extract_properties(
+                docset_id=docset_id, schema=properties_to_extract
+            )
             result = result.value
 
             if result.exit_status == 0:
                 return {
                     "docset_id": docset_id,
-                    "extracted_properties": [p.name for p in properties_to_extract.fields],
+                    "extracted_properties": [
+                        p.name for p in properties_to_extract.fields
+                    ],
                 }
             else:
                 raise Exception(f"Exit status: {result.exit_status}")
 
         except Exception as e:
-            raise Exception(f"Failed to extract properties for docset {docset_id}: {str(e)}") from e
+            raise Exception(
+                f"Failed to extract properties for docset {docset_id}: {str(e)}"
+            ) from e
 
-    def delete_properties(self, docset_id: str, properties_to_delete: list[str]) -> dict:
+    def delete_properties(
+        self, docset_id: str, properties_to_delete: list[str]
+    ) -> dict:
 
         try:
-            result = self.client.delete_properties(docset_id=docset_id, property_names=properties_to_delete)
+            result = self.client.delete_properties(
+                docset_id=docset_id, property_names=properties_to_delete
+            )
 
             result = result.value
 
@@ -138,7 +162,9 @@ class ArynDocSetManager:
             else:
                 raise Exception(f"Exit status: {result.exit_status}")
         except Exception as e:
-            raise Exception(f"Failed to delete properties for docset {docset_id}: {str(e)}") from e
+            raise Exception(
+                f"Failed to delete properties for docset {docset_id}: {str(e)}"
+            ) from e
 
     def search(
         self,
@@ -154,14 +180,19 @@ class ArynDocSetManager:
 
         properties_filter_string = None
         if properties_filter is not None:
-            properties_filter_string = self._generate_properties_filter_string(properties_filter=properties_filter)
+            properties_filter_string = self._generate_properties_filter_string(
+                properties_filter=properties_filter
+            )
 
         try:
             if query_or_properties_filter == "query":
                 search_result = self.client.search(
                     docset_id=docset_id,
                     query=SearchRequest(
-                        query=query, query_type=query_type, include_fields=["doc_id"], return_type=return_type
+                        query=query,
+                        query_type=query_type,
+                        include_fields=["doc_id"],
+                        return_type=return_type,
                     ),
                     page_size=page_size,
                 )
@@ -169,14 +200,19 @@ class ArynDocSetManager:
                 search_result = self.client.search(
                     docset_id=docset_id,
                     query=SearchRequest(
-                        properties_filter=properties_filter_string, include_fields=["doc_id"], return_type=return_type
+                        properties_filter=properties_filter_string,
+                        include_fields=["doc_id"],
+                        return_type=return_type,
                     ),
                     page_size=page_size,
                 )
 
             search_result = search_result.value
 
-            return {"results": search_result.results, "next_page_token": search_result.next_page_token}
+            return {
+                "results": search_result.results,
+                "next_page_token": search_result.next_page_token,
+            }
         except Exception as e:
             raise Exception(f"Failed to search docset {docset_id}: {str(e)}") from e
 
@@ -184,7 +220,12 @@ class ArynDocSetManager:
 
         try:
             query_result = self.client.query(
-                query=Query(query=query, docset_id=docset_id, summarize_result=summarize_result, stream=True)
+                query=Query(
+                    query=query,
+                    docset_id=docset_id,
+                    summarize_result=summarize_result,
+                    stream=True,
+                )
             )
 
             query_result_data = defaultdict(str)
