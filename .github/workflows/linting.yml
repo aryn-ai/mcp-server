@@ -21,9 +21,11 @@ jobs:
       
       - name: Install dependencies
         run: uv sync --dev
-
-      - name: Verify pre-commit installation
-        run: uv run pre-commit --version
       
       - name: Run pre-commit hook
         run: SKIP=no-commit-to-branch uv run pre-commit run --all-files
+      
+      - name: Show pre-commit log
+        if: failure()
+        run: |
+          cat /home/runner/.cache/pre-commit/pre-commit.log || echo "No log found"
