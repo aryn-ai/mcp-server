@@ -84,9 +84,7 @@ class DataType(str, Enum):
         elif python_type is dict:
             return cls.OBJECT
         else:
-            logger.warning(
-                f"Unsupported Python type: {python_type}. Defaulting to string."
-            )
+            logger.warning(f"Unsupported Python type: {python_type}. Defaulting to string.")
             return cls.STRING
 
 
@@ -241,9 +239,7 @@ def _convert_to_named_property(schema_prop: SchemaField) -> NamedProperty:
     )
 
 
-def _validate_new_schema(
-    v: Any, handler: ValidatorFunctionWrapHandler
-) -> NamedProperty:
+def _validate_new_schema(v: Any, handler: ValidatorFunctionWrapHandler) -> NamedProperty:
     try:
         return handler(v)
     except ValidationError:
@@ -256,11 +252,9 @@ def _validate_new_schema(
 class SchemaV2(BaseModel):
     """Represents the schema of a DocSet."""
 
-    properties: list[Annotated[NamedProperty, WrapValidator(_validate_new_schema)]] = (
-        Field(
-            description="A list of properties belonging to this schema.",
-            validation_alias=AliasChoices("properties", "fields"),
-        )
+    properties: list[Annotated[NamedProperty, WrapValidator(_validate_new_schema)]] = Field(
+        description="A list of properties belonging to this schema.",
+        validation_alias=AliasChoices("properties", "fields"),
     )
 
     @property
@@ -271,9 +265,7 @@ class SchemaV2(BaseModel):
     def flatten(self) -> "SchemaV2":
         """Flatten the schema by removing nested properties."""
 
-        def flatten_object(
-            prefix: str, props: list[NamedProperty], out_props: list[NamedProperty]
-        ) -> None:
+        def flatten_object(prefix: str, props: list[NamedProperty], out_props: list[NamedProperty]) -> None:
             """Flatten an ObjectProperty into its properties."""
             for p in props:
                 if p.type.type == DataType.ARRAY:
@@ -295,7 +287,6 @@ class SchemaV2(BaseModel):
     def render_flattened(self) -> str:
         flattened = self.flatten()
         props = [
-            {"name": p.name, **p.type.model_dump(exclude_unset=True, exclude_none=True)}
-            for p in flattened.properties
+            {"name": p.name, **p.type.model_dump(exclude_unset=True, exclude_none=True)} for p in flattened.properties
         ]
         return json.dumps({"properties": props}, indent=2)

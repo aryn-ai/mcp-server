@@ -92,9 +92,7 @@ class DrawBoxesModel(BaseModel):
         2. path_to_partitioned_json and path_to_original_pdf are provided
         """
         has_docset_fields = bool(self.docset_id and self.doc_id)
-        has_path_fields = bool(
-            self.path_to_partitioned_json and self.path_to_original_pdf
-        )
+        has_path_fields = bool(self.path_to_partitioned_json and self.path_to_original_pdf)
 
         if not has_docset_fields and not has_path_fields:
             raise ValueError(

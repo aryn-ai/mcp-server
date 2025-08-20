@@ -47,9 +47,7 @@ def save_file(
             with open(path, "wb") as f:
                 f.write(data)
         else:
-            raise ValueError(
-                f"Unsupported combination of data type {type(data)} and format {output_format}"
-            )
+            raise ValueError(f"Unsupported combination of data type {type(data)} and format {output_format}")
 
         return path.resolve()  # Return absolute path
 
@@ -93,9 +91,7 @@ def timing_decorator(func):
         result = func(*args, **kwargs)
         end_time = time.time()
 
-        print(
-            f"{func.__name__} took {end_time - start_time:.2f} seconds", file=sys.stderr
-        )
+        print(f"{func.__name__} took {end_time - start_time:.2f} seconds", file=sys.stderr)
         return result
 
     return wrapper
