@@ -20,6 +20,14 @@ jobs:
           version: "latest"
       - name: Install dependencies
         run: uv sync
+      - name: Get version from tag
+        id: get_version
+        run: echo "VERSION=${GITHUB_REF_NAME#v}" >> $GITHUB_ENV
+      - name: Set pyproject.toml version
+        run: |
+          sed -i "s/^version = .*/version = \"${VERSION}\"/" pyproject.toml
+          echo "Using version: ${VERSION}"
+          grep "version" pyproject.toml
       - name: Clean old build files
         run: rm -rf dist build *.egg-info
       - name: Build
