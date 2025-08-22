@@ -44,4 +44,4 @@ ignore_missing_imports = true
 explicit_package_bases = true
 
 [project.scripts]
-aryn-mcp-server = "aryn_mcp_server.aryn_sdk_mcp:main"
+aryn-mcp-server = "aryn_mcp_server.aryn_mcp_server:main"
