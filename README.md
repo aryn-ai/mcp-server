@@ -46,7 +46,6 @@ If you're manually installing this MCP server, add the following configuration t
     "Aryn SDK Local": {
       "command": "uvx",
       "args": [
-        "https://pypi.org/simple/",
         "aryn-mcp-server"
       ],
       "env": {

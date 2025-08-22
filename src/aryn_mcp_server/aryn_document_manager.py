@@ -5,8 +5,11 @@ from aryn_sdk.client import Client
 
 
 class ArynDocumentManager:
-    def __init__(self):
-        self.client = Client()
+    def __init__(self, aryn_api_key: str = None, aryn_url: str = None):
+        if aryn_api_key and aryn_url:
+            self.client = Client(aryn_api_key=aryn_api_key, aryn_url=aryn_url)
+        else:
+            self.client = Client()
 
     def _create_doc_info(self, doc, listing: bool = False) -> dict:
         doc_params = doc

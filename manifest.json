@@ -1,8 +1,8 @@
 {
   "dxt_version": "0.1",
   "name": "Aryn SDK MCP Extension",
-  "display_name": "Aryn SDK",
-  "version": "1.0.0",
+  "display_name": "Aryn Claude MCP Extension",
+  "version": "0.1.6",
   "description": "The Official Aryn SDK Local MCP Extension",
   "long_description": "A powerful document processing service that provides a comprehensive set of tools for PDF partitioning, analysis, and management. Offers advanced capabilities including DocSet management, property extraction, and intelligent search functionality.",
   "author": {
@@ -15,7 +15,7 @@
     "type": "python",
     "entry_point": "src/aryn_mcp_server/aryn_mcp_server.py",
     "mcp_config": {
-      "command": "python3",
+      "command": "${__dirname}/.venv/bin/python",
       "args": [
         "-m",
         "aryn_mcp_server.aryn_mcp_server"
@@ -99,13 +99,10 @@
       "sensitive": true
     }
   },
-  "license": "MIT",
+  "license": "Apache-2.0",
   "keywords": ["python", "document", "processing", "pdf", "partitioning", "docset", "document set", "document management", "search", "query", "document extraction"],
   "compatibility": {
     "claude_desktop": ">=0.10.0",
-    "platforms": ["darwin", "win32", "linux"],
-    "runtimes": {
-      "python": ">=3.12.0 <4"
-    }
+    "platforms": ["darwin", "linux"]
   }
 }
