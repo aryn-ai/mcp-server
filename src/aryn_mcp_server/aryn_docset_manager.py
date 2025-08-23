@@ -11,8 +11,11 @@ from collections import defaultdict
 
 
 class ArynDocSetManager:
-    def __init__(self):
-        self.client = Client()
+    def __init__(self, aryn_api_key: str | None = None, aryn_url: str | None = None):
+        if aryn_api_key and aryn_url:
+            self.client = Client(aryn_api_key=aryn_api_key, aryn_url=aryn_url)
+        else:
+            self.client = Client()
 
     def _parse_through_schema(self, schema: list[SchemaField]):
         properties_list = [vars(property) for property in schema]
