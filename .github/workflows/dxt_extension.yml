@@ -14,16 +14,34 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v4
 
+    - name: Setup Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
+
     - name: Setup Node.js
       uses: actions/setup-node@v4
       with:
         node-version: '18'
 
+    - name: Install uv
+      run: |
+        curl -LsSf https://astral.sh/uv/install.sh | sh
+        echo "$HOME/.cargo/bin" >> $GITHUB_PATH
+
     - name: Install DXT tool globally
       run: npm install -g @anthropic-ai/dxt
 
+    - name: Create and activate virtual environment
+      run: |
+        uv venv .venv
+        source .venv/bin/activate
+        uv sync
+
     - name: Run DXT pack command
-      run: dxt pack
+      run: |
+        source .venv/bin/activate
+        dxt pack
 
     - name: List generated files
       run: |
