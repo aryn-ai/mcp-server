@@ -34,11 +34,11 @@ jobs:
         run: |
           # Get the release ID
           RELEASE_ID=${{ github.event.release.id }}
-          
+
           # Find and delete existing mcp-server.dxt asset
           ASSET_ID=$(gh api repos/${{ github.repository }}/releases/$RELEASE_ID/assets \
             --jq '.[] | select(.name == "mcp-server.dxt") | .id' | head -1)
-          
+
           if [ ! -z "$ASSET_ID" ]; then
             echo "Deleting existing asset ID: $ASSET_ID"
             gh api repos/${{ github.repository }}/releases/assets/$ASSET_ID \
@@ -46,11 +46,11 @@ jobs:
           else
             echo "No existing mcp-server.dxt asset found"
           fi
-          
+
           # Find and delete existing versioned asset
           VERSIONED_ASSET_ID=$(gh api repos/${{ github.repository }}/releases/$RELEASE_ID/assets \
             --jq '.[] | select(.name == "mcp-server-v${{ steps.get_version.outputs.version }}.dxt") | .id' | head -1)
-          
+
           if [ ! -z "$VERSIONED_ASSET_ID" ]; then
             echo "Deleting existing versioned asset ID: $VERSIONED_ASSET_ID"
             gh api repos/${{ github.repository }}/releases/assets/$VERSIONED_ASSET_ID \
