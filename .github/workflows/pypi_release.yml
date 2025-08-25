@@ -37,3 +37,4 @@ jobs:
         with:
           verbose: true
           packages-dir: dist
+          audience: pypi
