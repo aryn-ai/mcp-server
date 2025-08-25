@@ -29,7 +29,7 @@ jobs:
       run: |
         echo "Generated files:"
         ls -la *.dxt || echo "No .dxt files found"
-        
+
     - name: Upload DXT Extension Asset
       uses: actions/upload-release-asset@v1
       env:
