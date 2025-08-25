@@ -9,7 +9,7 @@ jobs:
     name: Create DXT Extension
     permissions:
       contents: read
-      releases: write
+      id-token: write
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
