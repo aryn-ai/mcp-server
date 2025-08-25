@@ -26,14 +26,28 @@ jobs:
     - name: Run DXT pack command
       run: dxt pack
 
-    - name: Upload DXT extension artifact
-      uses: actions/upload-artifact@v4
-      with:
-        name: dxt-extension
-        path: '*.dxt'
-        retention-days: 90
-
     - name: List generated files
       run: |
         echo "Generated files:"
         ls -la *.dxt || echo "No .dxt files found"
+        
+    - name: Create Release
+      id: create_release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: v${{ github.run_number }}
+        release_name: Release v${{ github.run_number }}
+        draft: false
+        prerelease: false
+        
+    - name: Upload DXT Extension Asset
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: ./*.dxt
+        asset_name: mcp-server-extension.dxt
+        asset_content_type: application/octet-stream
