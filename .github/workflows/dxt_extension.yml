@@ -10,6 +10,7 @@ jobs:
     permissions:
       contents: read
       id-token: write
+      release: write
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -48,18 +49,6 @@ jobs:
               --method DELETE
           else
             echo "No existing mcp-server.dxt asset found"
-          fi
-
-          # Find and delete existing versioned asset
-          VERSIONED_ASSET_ID=$(gh api repos/${{ github.repository }}/releases/$RELEASE_ID/assets \
-            --jq '.[] | select(.name == "mcp-server-v${{ steps.get_version.outputs.version }}.dxt") | .id' | head -1)
-
-          if [ ! -z "$VERSIONED_ASSET_ID" ]; then
-            echo "Deleting existing versioned asset ID: $VERSIONED_ASSET_ID"
-            gh api repos/${{ github.repository }}/releases/assets/$VERSIONED_ASSET_ID \
-              --method DELETE
-          else
-            echo "No existing versioned asset found"
           fi
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
