@@ -1,0 +1,80 @@
+name: Create DXT Extension (GitHub Releases)
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  create-dxt-extension:
+    name: Create DXT Extension
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+      - name: Install DXT tool
+        run: npm install -g @anthropic-ai/dxt
+      - name: Create DXT extension
+        run: dxt pack
+      - name: Get version from release tag
+        id: get_version
+        run: |
+          # Extract version from release tag (remove 'v' prefix if present)
+          VERSION=${GITHUB_REF#refs/tags/}
+          VERSION=${VERSION#v}
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "Version: $VERSION"
+      - name: Create versioned copy
+        run: |
+          cp mcp-server.dxt mcp-server-v${{ steps.get_version.outputs.version }}.dxt
+      - name: Delete existing DXT assets
+        run: |
+          # Get the release ID
+          RELEASE_ID=${{ github.event.release.id }}
+          
+          # Find and delete existing mcp-server.dxt asset
+          ASSET_ID=$(gh api repos/${{ github.repository }}/releases/$RELEASE_ID/assets \
+            --jq '.[] | select(.name == "mcp-server.dxt") | .id' | head -1)
+          
+          if [ ! -z "$ASSET_ID" ]; then
+            echo "Deleting existing asset ID: $ASSET_ID"
+            gh api repos/${{ github.repository }}/releases/assets/$ASSET_ID \
+              --method DELETE
+          else
+            echo "No existing mcp-server.dxt asset found"
+          fi
+          
+          # Find and delete existing versioned asset
+          VERSIONED_ASSET_ID=$(gh api repos/${{ github.repository }}/releases/$RELEASE_ID/assets \
+            --jq '.[] | select(.name == "mcp-server-v${{ steps.get_version.outputs.version }}.dxt") | .id' | head -1)
+          
+          if [ ! -z "$VERSIONED_ASSET_ID" ]; then
+            echo "Deleting existing versioned asset ID: $VERSIONED_ASSET_ID"
+            gh api repos/${{ github.repository }}/releases/assets/$VERSIONED_ASSET_ID \
+              --method DELETE
+          else
+            echo "No existing versioned asset found"
+          fi
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Upload latest DXT extension as release asset
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ github.event.release.upload_url }}
+          asset_path: ./mcp-server.dxt
+          asset_name: mcp-server.dxt
+          asset_content_type: application/octet-stream
+      - name: Upload versioned DXT extension as release asset
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ github.event.release.upload_url }}
+          asset_path: ./mcp-server-v${{ steps.get_version.outputs.version }}.dxt
+          asset_name: mcp-server-v${{ steps.get_version.outputs.version }}.dxt
+          asset_content_type: application/octet-stream

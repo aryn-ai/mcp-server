@@ -6,11 +6,11 @@
 * Python 3.12 or higher. Install it [here](https://www.python.org/downloads/)
 * [uv](https://github.com/astral-sh/uv) - Fast Python package installer and resolver
 * An Aryn API key. You can create an account and receive a key for free [here](https://app.aryn.ai/)
-* This MCP server works best in combination with a file system MCP server (see installation instructions below).
+* This MCP server works best in combination with a file system MCP server (see installation instructions below)
 * An MCP server client like Claude Desktop (Recommended) or Claude Code
 
 ### Filesystem MCP
-The Aryn MCP server requires absolute file paths to pdfs you want processed, so it works best when paired with an MCP server that can automatically manage files on your computer. Here is how to install one for Claude Desktop:
+The Aryn MCP server requires absolute file paths to pdfs you want processed as inputs, so it works best when paired with an MCP server that can automatically manage files on your computer. Here is how to install one for Claude Desktop:
 ![inc_1](./images/install_inc_1.png)
 ![inc_2](./images/install_inc_2.png)
 ![inc_3](./images/install_inc_3.png)
@@ -23,32 +23,33 @@ More documentation for the filesystem MCP server can be found [here](https://git
 
 Instead of manually installing this MCP server, Claude Desktop allows for an easy one-click extension:
 
-**Download the extension**: Retrieve the provided `.dxt` file from this repository, or download it [here]().
+**Download the extension**: Retrieve the provided `.dxt` file from this repository, or download it [here](https://github.com/aryn-ai/mcp-server/releases/latest/download/mcp-server.dxt).
 
 
 Open the Claude Desktop settings
 ![inc_6](./images/install_inc_6.png)
 ![inc_7](./images/install_inc_7.png)
 ![inc_8](./images/install_inc_8.png)
-Find the folder where the .dxt extension was downloaded and double click to install
+
+**Find the folder where the .dxt extension was downloaded and double click to install. Follow the installation steps when prompted**
+
 ![inc_9](./images/install_inc_9.png)
+
+**Now you're ready to go!**
 
 For more details, refer to the [Claude Desktop Extensions documentation](https://www.anthropic.com/engineering/desktop-extensions).
 
-### Installing uv
-
-This project uses `uvx` for easy execution. To get started, you need to install `uv` first, which provides the `uvx` command. Install it [here](https://docs.astral.sh/uv/getting-started/installation/).
+### Manual Installation
+If you're manually installing this MCP server, you need to install `uv` first, which provides the `uvx` command. Install it [here](https://docs.astral.sh/uv/getting-started/installation/).
 
 After installation, you'll have access to both `uv` and `uvx` commands. The `uvx` command is what you'll use to run this MCP server.
 
-### Configuration
-
-If you're manually installing this MCP server, add the following configuration to your MCP client config file
+Next, add the following configuration to your MCP client config file
 
 ```json
 {
   "mcpServers": {
-    "Aryn SDK Local": {
+    "Aryn Local MCP Server": {
       "command": "uvx",
       "args": [
         "aryn-mcp-server"

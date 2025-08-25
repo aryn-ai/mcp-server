@@ -3,7 +3,7 @@ on:
     types: [published]
 
 jobs:
-  test-pypi-release:
+  pypi-release:
     name: Upload to PyPI
     runs-on: ubuntu-latest
     environment:
