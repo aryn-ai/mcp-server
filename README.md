@@ -6,11 +6,11 @@
 * Python 3.12 or higher. Install it [here](https://www.python.org/downloads/)
 * [uv](https://github.com/astral-sh/uv) - Fast Python package installer and resolver
 * An Aryn API key. You can create an account and receive a key for free [here](https://app.aryn.ai/)
-* This MCP server works best in combination with a file system MCP server (see installation instructions below). 
+* This MCP server works best in combination with a file system MCP server (see installation instructions below).
 * An MCP server client like Claude Desktop (Recommended) or Claude Code
 
 ### Filesystem MCP
-The Aryn MCP server requires absolute file paths to pdfs you want processed, so it works best when paired with an MCP server that can automatically manage files on your computer. Here is how to install one for Claude Desktop: 
+The Aryn MCP server requires absolute file paths to pdfs you want processed, so it works best when paired with an MCP server that can automatically manage files on your computer. Here is how to install one for Claude Desktop:
 ![inc_1](./images/install_inc_1.png)
 ![inc_2](./images/install_inc_2.png)
 ![inc_3](./images/install_inc_3.png)
