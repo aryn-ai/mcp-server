@@ -1,7 +1,7 @@
 [project]
 name = "aryn-mcp-server"
 version = "0.1.7"
-description = "The Official Aryn SDK Local MCP Extension"
+description = "The Official Local Aryn MCP Server"
 authors = [
     {name = "Aryn AI",email = "info@aryn.ai"}
 ]
