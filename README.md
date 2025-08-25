@@ -19,27 +19,27 @@ The Aryn MCP server requires absolute file paths to pdfs you want processed, so 
 
 More documentation for the filesystem MCP server can be found [here](https://github.com/modelcontextprotocol/servers/tree/main/src/filesystem).
 
-### One-Click Install for Claude Desktop (Claude Desktop only. This extension will not work with any other MCP client)
+### One-Click Install for Claude Desktop (Claude Desktop only)
 
 Instead of manually installing this MCP server, Claude Desktop allows for an easy one-click extension:
 
-**Download the extension**: Retrieve the provided `.dxt` file from this repository, or click [here]().
+**Download the extension**: Retrieve the provided `.dxt` file from this repository, or download it [here]().
+
+
+Open the Claude Desktop settings
+![inc_6](./images/install_inc_6.png)
+![inc_7](./images/install_inc_7.png)
+![inc_8](./images/install_inc_8.png)
+Find the folder where the .dxt extension was downloaded and double click to install
+![inc_9](./images/install_inc_9.png)
+
+For more details, refer to the [Claude Desktop Extensions documentation](https://www.anthropic.com/engineering/desktop-extensions).
 
 ### Installing uv
 
 This project uses `uvx` for easy execution. To get started, you need to install `uv` first, which provides the `uvx` command. Install it [here](https://docs.astral.sh/uv/getting-started/installation/).
 
 After installation, you'll have access to both `uv` and `uvx` commands. The `uvx` command is what you'll use to run this MCP server.
-
-
-
-
-
-
-
-
-
-For more details, refer to the [Claude Desktop Extensions documentation](https://www.anthropic.com/engineering/desktop-extensions).
 
 ### Configuration
 
