@@ -4,35 +4,40 @@
 
 ### Prerequisites
 * Python 3.12 or higher. Install it [here](https://www.python.org/downloads/)
-* [uv](https://github.com/astral-sh/uv) - Fast Python package installer and resolver (see installation instructions below)
+* [uv](https://github.com/astral-sh/uv) - Fast Python package installer and resolver
 * An Aryn API key. You can create an account and receive a key for free [here](https://app.aryn.ai/)
+* This MCP server works best in combination with a file system MCP server (see installation instructions below). 
+* An MCP server client like Claude Desktop (Recommended) or Claude Code
 
-### Installing uv
+### Filesystem MCP
+The Aryn MCP server requires absolute file paths to pdfs you want processed, so it works best when paired with an MCP server that can automatically manage files on your computer. Here is how to install one for Claude Desktop: 
+![inc_1](./images/install_inc_1.png)
+![inc_2](./images/install_inc_2.png)
+![inc_3](./images/install_inc_3.png)
+![inc_4](./images/install_inc_4.png)
+![inc_5](./images/install_inc_5.png)
 
-This project uses `uvx` for easy execution. To get started, you need to install `uv` first, which provides the `uvx` command:
+More documentation for the filesystem MCP server can be found [here](https://github.com/modelcontextprotocol/servers/tree/main/src/filesystem).
 
-1. Install uv for macOS/Linux (if not already installed):
-   ```
-   curl -LsSf https://astral.sh/uv/install.sh | sh
-   ```
-
-2. Install uv for Windows (if not already installed):
-   ```
-   powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | iex"
-   ```
-
-After installation, you'll have access to both `uv` and `uvx` commands. The `uvx` command is what you'll use to run this MCP server.
-
-### One-Click Install for Claude Desktop (Claude Desktop Only)
+### One-Click Install for Claude Desktop (Claude Desktop only. This extension will not work with any other MCP client)
 
 Instead of manually installing this MCP server, Claude Desktop allows for an easy one-click extension:
 
-1. **Download the extension**: Retrieve the provided `.dxt` file from this repository
-2. **Install the extension**: Drag the `.dxt` file into Claude Desktop's Settings window
-3. **Review and install**: You'll see:
-   - Human-readable information about your extension
-   - Required permissions and configuration
-   - A simple "Install" button
+**Download the extension**: Retrieve the provided `.dxt` file from this repository, or click [here]().
+
+### Installing uv
+
+This project uses `uvx` for easy execution. To get started, you need to install `uv` first, which provides the `uvx` command. Install it [here](https://docs.astral.sh/uv/getting-started/installation/).
+
+After installation, you'll have access to both `uv` and `uvx` commands. The `uvx` command is what you'll use to run this MCP server.
+
+
+
+
+
+
+
+
 
 For more details, refer to the [Claude Desktop Extensions documentation](https://www.anthropic.com/engineering/desktop-extensions).
 

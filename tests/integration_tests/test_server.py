@@ -261,7 +261,7 @@ def test_list_aryn_documents(sample_pdf_path, create_docset):
 def test_get_document_elements(create_docset):
     docset_id = create_docset["docset_id"]
     doc_id = create_docset["test_doc_id"]
-    args = GetArynDocumentComponentsModel(docset_id=docset_id, doc_id=doc_id)
+    args = GetArynDocumentComponentsModel(docset_id=docset_id, doc_id=doc_id, return_original_elements=True)
     result = get_aryn_document_elements(args)
     extracted_file_path = extract_file_path_from_message(result)
     assert Path(extracted_file_path).exists()
@@ -279,7 +279,7 @@ def test_get_document_extracted_properties(create_docset):
 def test_get_document_tables(create_docset):
     docset_id = create_docset["docset_id"]
     doc_id = create_docset["test_doc_id"]
-    args = GetArynDocumentComponentsModel(docset_id=docset_id, doc_id=doc_id)
+    args = GetArynDocumentComponentsModel(docset_id=docset_id, doc_id=doc_id, return_original_elements=True)
     result = get_aryn_document_tables(args)
     extracted_file_path = extract_file_path_from_message(result)
     assert Path(extracted_file_path).exists()
@@ -288,7 +288,7 @@ def test_get_document_tables(create_docset):
 def test_get_document_original_file(create_docset):
     docset_id = create_docset["docset_id"]
     doc_id = create_docset["test_doc_id"]
-    args = GetArynDocumentComponentsModel(docset_id=docset_id, doc_id=doc_id)
+    args = GetArynDocumentComponentsModel(docset_id=docset_id, doc_id=doc_id, return_original_elements=True)
     result = get_aryn_document_original_file(args)
     extracted_file_path = extract_file_path_from_message(result)
     assert Path(extracted_file_path).exists()
