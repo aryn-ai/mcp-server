@@ -2,3 +2,4 @@
 downloads/
 temp/
 __pycache__/
+*.dxt

@@ -5,7 +5,7 @@ from aryn_sdk.client import Client
 
 
 class ArynDocumentManager:
-    def __init__(self, aryn_api_key: str | None = None, aryn_url: str | None = None):
+    def __init__(self, aryn_api_key: str | None = None, aryn_url: str = "https://api.aryn.ai"):
         if aryn_api_key and aryn_url:
             self.client = Client(aryn_api_key=aryn_api_key, aryn_url=aryn_url)
         else:

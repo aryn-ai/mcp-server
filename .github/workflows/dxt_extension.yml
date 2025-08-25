@@ -1,0 +1,41 @@
+permissions:
+  contents: write
+name: Build DXT Extension
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  build-dxt-extension:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+
+    - name: Install DXT tool globally
+      run: npm install -g @anthropic-ai/dxt
+
+    - name: Run DXT pack command
+      run: dxt pack
+
+    - name: List generated files
+      run: |
+        echo "Generated files:"
+        ls -la *.dxt || echo "No .dxt files found"
+
+    - name: Upload DXT Extension Asset
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ github.event.release.upload_url }}
+        asset_path: ./mcp-server.dxt
+        asset_name: mcp-server-extension.dxt
+        asset_content_type: application/octet-stream

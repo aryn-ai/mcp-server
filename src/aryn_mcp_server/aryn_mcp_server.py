@@ -62,6 +62,7 @@ def partition_pdf(args: PartitionModel) -> str:
         include_pagenum
         include_headers
         include_footers
+        add_to_docset_id
 
     Returns:
         A string describing where the result is stored and the name of the file
