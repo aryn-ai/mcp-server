@@ -3,7 +3,8 @@ import unittest
 from pathlib import Path
 
 from aryn_sdk.client import Client
-from aryn_mcp_server.models import PartitionModel
+from aryn_mcp_server.models import PartitionModel, Schema
+from aryn_mcp_server.models.document_schema import SchemaField
 from aryn_mcp_server.aryn_document_manager import ArynDocumentManager
 
 from dotenv import load_dotenv
@@ -15,8 +16,23 @@ class TestArynDocumentManager(unittest.TestCase):
     def setUp(self):
         self.client = Client(aryn_api_key=os.getenv("ARYN_API_KEY"))
         self.ADM = ArynDocumentManager(aryn_api_key=os.getenv("ARYN_API_KEY"))
-
-        docset = self.client.create_docset(name="test_document_unittest")
+        test_schema = Schema(
+            fields=[
+                SchemaField(
+                    name="Accident Number",
+                    field_type="str",
+                    description="The number of the accident",
+                    examples=["ERTLJ302242"],
+                ),
+                SchemaField(
+                    name="Aircraft Make",
+                    field_type="str",
+                    description="The make of the aircraft",
+                    examples=["Cessna 172"],
+                ),
+            ]
+        )
+        docset = self.client.create_docset(name="test_document_unittest", schema=test_schema)
         self.test_docset_id = docset.value.docset_id
         self.test_file_path = Path("tests/data/test_1.pdf")
 
@@ -85,6 +101,7 @@ class TestArynDocumentManager(unittest.TestCase):
             self.assertIsNotNone(doc_info["name"])
             self.assertIsNotNone(doc_info["size"])
             self.assertIsNotNone(doc_info["content_type"])
+            self.assertIsNotNone(doc_info["extracted_properties"])
 
     def test_get_document_not_found(self):
         get_result = self.ADM.get_document(

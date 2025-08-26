@@ -17,7 +17,7 @@ class ArynDocumentManager:
         if not listing:
             doc_params = doc.value
 
-        docset_dict = {
+        doc_dict = {
             "account_id": doc_params.account_id,
             "doc_id": doc_params.doc_id,
             "name": doc_params.name,
@@ -26,7 +26,7 @@ class ArynDocumentManager:
             "properties": doc_params.properties,
         }
 
-        return docset_dict
+        return doc_dict
 
     def _extract_properties(self, properties):
         if not isinstance(properties, dict):
@@ -80,6 +80,10 @@ class ArynDocumentManager:
         try:
             docs = self.client.list_docs(docset_id=docset_id, page_size=page_size, page_token=page_token)
             docs_info = [self._create_doc_info(doc, listing=True) for doc in docs]
+            for doc_info in docs_info:
+                doc_id = doc_info["doc_id"]
+                extracted_properties = self.get_document(docset_id=docset_id, doc_id=doc_id, include_elements=False, include_binary=False)["properties"]
+                doc_info["extracted_properties"] = extracted_properties
             return docs_info
         except Exception as e:
             raise Exception(f"Failed to list documents in docset {docset_id}: {str(e)}") from e
