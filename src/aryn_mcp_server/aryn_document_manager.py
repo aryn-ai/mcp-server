@@ -82,7 +82,9 @@ class ArynDocumentManager:
             docs_info = [self._create_doc_info(doc, listing=True) for doc in docs]
             for doc_info in docs_info:
                 doc_id = doc_info["doc_id"]
-                extracted_properties = self.get_document(docset_id=docset_id, doc_id=doc_id, include_elements=False, include_binary=False)["properties"]
+                extracted_properties = self.get_document(
+                    docset_id=docset_id, doc_id=doc_id, include_elements=False, include_binary=False
+                )["properties"]
                 doc_info["extracted_properties"] = extracted_properties
             return docs_info
         except Exception as e:
