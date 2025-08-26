@@ -25,13 +25,7 @@ Instead of manually installing this MCP server, Claude Desktop allows for an eas
 
 **Download the extension**: Retrieve the provided `.dxt` file from this repository, or download it [here](https://github.com/aryn-ai/mcp-server/releases/latest/download/mcp-server-extension.dxt).
 
-
-Open the Claude Desktop settings
-![inc_6](./images/install_inc_6.png)
-![inc_7](./images/install_inc_7.png)
-![inc_8](./images/install_inc_8.png)
-
-**Find the folder where the .dxt extension was downloaded and double click to install. Follow the installation steps when prompted**
+**Find the .dxt extension**: Navigate to the folder where the file was downloaded and double click to install. Follow the installation steps when prompted
 
 ![inc_9](./images/install_inc_9.png)
 
