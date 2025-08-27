@@ -41,7 +41,7 @@ jobs:
         chmod +x .venv/bin/uv .venv/bin/uvx
         ls -la .venv/bin/
 
-    - name: test installed uvx 
+    - name: test installed uvx
       run: |
         .venv/bin/uvx --version
 
@@ -51,7 +51,7 @@ jobs:
 
     - name: List generated files
       run: ls -la
-    
+
     - name: Upload DXT Extension Asset
       uses: actions/upload-release-asset@v1
       env:
