@@ -36,11 +36,14 @@ jobs:
 
     - name: Copy uv binaries into venv (Linux/macOS)
       run: |
-        mkdir -p .venv/bin
         cp $HOME/.local/bin/uv .venv/bin/uv
         cp $HOME/.local/bin/uvx .venv/bin/uvx
         chmod +x .venv/bin/uv .venv/bin/uvx
         ls -la .venv/bin/
+
+    - name: test installed uvx 
+      run: |
+        .venv/bin/uvx --version
 
     - name: Run DXT pack
       run: |

@@ -23,7 +23,7 @@ More documentation for the filesystem MCP server can be found [here](https://git
 
 Instead of manually installing this MCP server, Claude Desktop allows for an easy one-click extension:
 
-**Download the extension**: Retrieve the provided `.dxt` file from this repository, or download it for macos [here](https://github.com/aryn-ai/mcp-server/releases/latest/download/mcp-server-macos.dxt) and linux [here](https://github.com/aryn-ai/mcp-server/releases/latest/download/mcp-server-linux.dxt).
+**Download the extension**: Retrieve the provided `.dxt` file from this repository, or download it for macos [here](https://github.com/aryn-ai/mcp-server/releases/latest/download/mcp-server-macos-latest.dxt) and linux [here](https://github.com/aryn-ai/mcp-server/releases/latest/download/mcp-server-ubuntu-latest.dxt).
 
 **Find the .dxt extension**: Navigate to the folder where the file was downloaded and double click to install. Follow the installation steps when prompted
 
