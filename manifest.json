@@ -15,10 +15,9 @@
     "type": "python",
     "entry_point": "src/aryn_mcp_server/aryn_mcp_server.py",
     "mcp_config": {
-      "command": "${__dirname}/.venv/bin/python",
+      "command": "${__dirname}/.venv/bin/uvx",
       "args": [
-        "-m",
-        "aryn_mcp_server.aryn_mcp_server"
+        "aryn-mcp-server"
       ],
       "env": {
         "PYTHONPATH": "${__dirname}/src:${__dirname}/.venv/lib/python3.13/site-packages",

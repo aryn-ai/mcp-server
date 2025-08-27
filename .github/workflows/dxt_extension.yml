@@ -8,16 +8,14 @@ on:
 
 jobs:
   build-dxt-extension:
-    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
 
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
-
-    - name: Setup Python
-      uses: actions/setup-python@v4
-      with:
-        python-version: '3.11'
 
     - name: Setup Node.js
       uses: actions/setup-node@v4
@@ -35,37 +33,22 @@ jobs:
     - name: Create and activate virtual environment
       run: |
         uv venv .venv
-        uv sync
 
-    - name: Prune .venv before packaging
+    - name: Copy uv binaries into venv (Linux/macOS)
       run: |
-        # Remove caches and bytecode
-        find .venv -type d -name "__pycache__" -exec rm -rf {} +
-        find .venv -type f -name "*.pyc" -delete
+        mkdir -p .venv/bin
+        cp $HOME/.local/bin/uv .venv/bin/uv
+        cp $HOME/.local/bin/uvx .venv/bin/uvx
+        chmod +x .venv/bin/uv .venv/bin/uvx
+        ls -la .venv/bin/
 
-        # Remove common dev-only packages
-        rm -rf .venv/lib/python*/site-packages/pip*
-        rm -rf .venv/lib/python*/site-packages/setuptools*
-        rm -rf .venv/lib/python*/site-packages/wheel*
-        rm -rf .venv/lib/python*/site-packages/twine*
-        rm -rf .venv/lib/python*/site-packages/pre_commit*
-        rm -rf .venv/lib/python*/site-packages/pytest*
-        rm -rf .venv/lib/python*/site-packages/_distutils*
-
-        # Remove metadata (safe for runtime)
-        rm -rf .venv/lib/python*/site-packages/*.dist-info
-        rm -rf .venv/lib/python*/site-packages/*.egg-info
-        
-    - name: Run DXT pack command
+    - name: Run DXT pack
       run: |
-        source .venv/bin/activate
         dxt pack
 
     - name: List generated files
-      run: |
-        echo "Generated files:"
-        ls -la *.dxt || echo "No .dxt files found"
-
+      run: ls -la
+    
     - name: Upload DXT Extension Asset
       uses: actions/upload-release-asset@v1
       env:
@@ -73,5 +56,5 @@ jobs:
       with:
         upload_url: ${{ github.event.release.upload_url }}
         asset_path: ./mcp-server.dxt
-        asset_name: mcp-server-extension.dxt
+        asset_name: mcp-server-${{ matrix.os }}.dxt
         asset_content_type: application/octet-stream

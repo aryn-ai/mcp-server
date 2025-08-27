@@ -27,7 +27,7 @@ wheels = [
 
 [[package]]
 name = "aryn-mcp-server"
-version = "0.1.8"
+version = "0.1.9"
 source = { editable = "." }
 dependencies = [
     { name = "aryn-sdk" },
