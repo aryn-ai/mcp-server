@@ -3,3 +3,4 @@ downloads/
 temp/
 __pycache__/
 *.dxt
+claude_config.json
