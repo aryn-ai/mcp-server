@@ -29,6 +29,8 @@ Instead of manually installing this MCP server, Claude Desktop allows for an eas
 
 ![inc_9](./images/install_inc_9.png)
 
+**Restart Claude Desktop**
+
 **Now you're ready to go!**
 
 For more details, refer to the [Claude Desktop Extensions documentation](https://www.anthropic.com/engineering/desktop-extensions).
