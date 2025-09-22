@@ -4,7 +4,7 @@
   "display_name": "Aryn Claude MCP Extension",
   "version": "0.1.9",
   "description": "The Official Aryn SDK Local MCP Extension",
-  "long_description": "A powerful document processing service that provides a comprehensive set of tools for PDF partitioning, analysis, and management. Offers advanced capabilities including DocSet management, property extraction, and intelligent search functionality.",
+  "long_description": "A powerful document processing service that provides a comprehensive set of tools for unstructured document parsing, analysis, and management. Offers advanced capabilities including DocSet management, property extraction, and intelligent search functionality.",
   "author": {
     "name": "Aryn AI",
     "email": "info@aryn.ai",
