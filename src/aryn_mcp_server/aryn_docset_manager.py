@@ -2,7 +2,7 @@ from aryn_sdk.client import Client
 from aryn_sdk.client.client import SearchRequest
 
 from aryn_sdk.types.query import Query
-from aryn_sdk.types.schema import Schema, SchemaField
+from aryn_sdk.types.schema import Schema, NamedProperty
 
 from typing import Literal
 from .models import PropertiesFilterModel
@@ -17,7 +17,7 @@ class ArynDocSetManager:
         else:
             self.client = Client()
 
-    def _parse_through_schema(self, schema: list[SchemaField]):
+    def _parse_through_schema(self, schema: list[NamedProperty]):
         properties_list = [vars(property) for property in schema]
         return properties_list
 
