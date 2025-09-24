@@ -70,3 +70,9 @@ If you encounter `spawn uvx ENOENT` errors:
 1. **Verify uv installation**: Run `which uvx` in your terminal to find the correct path
 
 2. **Use the full path to uv**: Replace `"command": "uvx"` with `"command": "<full path to uvx>"`
+
+If you encounter file permissions errors, ensure that the path is expanded out and passed, MCP client tend to treat them as literal directory names. For specific issues:
+
+1. **Input Directory**: Ensure that the filesystem connector has access to the directory, and it is read accessible.
+
+2. **Output Directory**: Ensure that the directory is write accessible.

@@ -87,7 +87,7 @@
       "type": "directory",
       "title": "Aryn SDK Output Directory",
       "description": "Directory where Aryn SDK will save processed documents, extracted properties, and other output files",
-      "default": "${HOME}/Documents",
+      "default": "/tmp/aryn_documents",
       "required": false
     },
     "api_key": {
