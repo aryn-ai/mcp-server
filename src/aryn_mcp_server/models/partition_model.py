@@ -196,7 +196,7 @@ class PartitionModel(BaseModel):
             output_format (str, optional)
             Controls output representation; can be set to:
             "markdown"
-            "html" 
+            "html"
             "json" (default)""",
     )
 

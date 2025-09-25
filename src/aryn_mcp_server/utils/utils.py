@@ -8,7 +8,7 @@ import pandas as pd
 from PIL import Image
 from pathlib import Path
 from functools import wraps
-from typing import Dict, Union, List
+from typing import Dict, Union, List, Optional
 from io import BytesIO, StringIO
 
 
@@ -27,9 +27,11 @@ def get_output_dir() -> Path:
 def save_file(
     data: Union[Dict, str, Image.Image, bytes],
     filename: str,
-    output_format: str = "json",
+    output_format: Optional[str] = "json",
 ) -> Path:
     try:
+        if output_format is None:
+            output_format = "json"
         base_dir = get_output_dir()  # This is now an absolute path
         path = ensure_unique_filename(base_dir / filename, f".{output_format}")
         if isinstance(data, dict) or isinstance(data, list) and output_format == "json":
