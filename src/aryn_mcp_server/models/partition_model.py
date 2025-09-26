@@ -68,8 +68,8 @@ class PartitionModel(BaseModel):
             the file are returned or a string "auto" (the default) where the service uses a processing method to find the best prediction for each
             possible bounding box. Only bounding boxes that the model predicts with a confidence score higher than the threshold specified will
             be returned. A lower value will include more objects but may have overlaps, while a higher value will reduce the number of overlaps
-            but may miss legitimate objects. 
-            
+            but may miss legitimate objects.
+
             If you do set the threshold manually, I recommend starting with a value of 0.32. If not specified, the default value is 'auto'.""",
     )
 
